@@ -56,7 +56,6 @@ def mycfg():
 		blockmap = block_map(create_blocks(func['instrs']))
 		cfg = get_cfg(blockmap)
 		print(cfg)
-		
 
 if __name__ == "__main__":
 	mycfg()
