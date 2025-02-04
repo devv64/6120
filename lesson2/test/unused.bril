@@ -1,7 +1,7 @@
 @main {
-  v0: int = const 1;
-  v1: int = const 2;
+  v0: int = const 10;
+  v1: int = const 20;
   v2: int = add v0 v1;
-  v3: int = const 3;
+  v3: int = const 30;
   print v2;
 }
