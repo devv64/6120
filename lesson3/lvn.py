@@ -70,7 +70,7 @@ def lvn(blocks):
     # print(CurVarToId)
     # print(VarToVal)
 
-    return blocks
+    # return blocks
 
 if __name__ == "__main__":
 	prog = json.load(sys.stdin)

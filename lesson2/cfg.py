@@ -37,7 +37,7 @@ def get_cfg(blockmap):
 	out = {}
 	for i, (name, block) in enumerate(blockmap.items()):
 		last = block[-1]
-		if last['op'] in ['jmp, br']:
+		if last['op'] in ['jmp', 'br']:
 			suc = last['labels']
 		elif last['op'] == 'ret':
 			suc = []
@@ -46,16 +46,26 @@ def get_cfg(blockmap):
 				suc = []
 			else:
 				suc = [list(blockmap.keys())[i + 1]]
-			out[name] = suc
+		out[name] = suc
 	return out
 		
+def edges(cfg):
+	succ = {b: [] for b in cfg}
+	pred = {b: [] for b in cfg}
+	for b in cfg:
+		for out in cfg[b]:
+			succ[b].append(out)
+			pred[out].append(b)
+	return succ, pred
 
 def mycfg():
 	prog = json.load(sys.stdin)
-	for func in prog['functions']:
-		blockmap = block_map(create_blocks(func['instrs']))
-		cfg = get_cfg(blockmap)
-		print(cfg)
+	func = prog['functions'][0]
+	blocks = create_blocks(func['instrs'])
+	blockmap = block_map(blocks)
+	cfg = get_cfg(blockmap)
+	
+	return blocks, cfg
 
 if __name__ == "__main__":
 	mycfg()
