@@ -22,7 +22,7 @@ def fmt(val):
     else:
         return str(val)
 
-def df(cfg):
+def df(cfg, merge, transfer):
 	cfg_mapping = {}
 	for i, x in enumerate(cfg):
 		cfg_mapping[x] = i
@@ -33,9 +33,8 @@ def df(cfg):
 	output = {b: {} for b in cfg}
 	while worklist != []:
 		b = worklist.pop()
-		cp_merge(output[p] for p in pred[b])
-		input[b] = cp_merge(output[p] for p in pred[b])
-		out = cp_transfer(blocks[cfg_mapping[b]], input[b])
+		input[b] = merge(output[p] for p in pred[b])
+		out = transfer(blocks[cfg_mapping[b]], input[b])
 		if out != output[b]:
 			output[b] = out
 			worklist += succ[b]
@@ -76,7 +75,7 @@ def cp_transfer(block, prev_input):
 
 if __name__ == "__main__":
 	blocks, cfg = mycfg.mycfg()
-	inp, out = df(cfg)
+	inp, out = df(cfg, cp_merge, cp_transfer)
 	for block in cfg:
 		print('{}:'.format(block))
 		print('  in: ', fmt(inp[block]))
