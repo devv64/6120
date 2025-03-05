@@ -78,7 +78,7 @@ def post_dominators(cfg, succ):
                 changed = True
     return post_dom
 
-def dominance_frontier(cfg, dom, idom, preds):
+def dominance_frontier(cfg, dom, preds):
     dom_front = {s: set() for s in dom}
 
     for node in cfg:
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     idom = immediate_dominators(dom)
     tree = dominator_tree(idom)
     post_dom = post_dominators(cfg, succ)
-    dom_front = dominance_frontier(cfg, dom, idom, pred)
+    dom_front = dominance_frontier(cfg, dom, pred)
     print("Dominators:")
     for node, dom_set in dom.items():
         print(f"{node}: {', '.join(dom_set)}")
